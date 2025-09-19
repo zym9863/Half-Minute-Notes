@@ -81,6 +81,20 @@ const deleteTag = (name: string) => {
   }
 };
 
+// 更新标签
+const updateTag = (oldName: string, newName: string, newColor: string) => {
+  const tagIndex = tags.value.findIndex(tag => tag.name === oldName);
+  if (tagIndex !== -1) {
+    tags.value[tagIndex].name = newName;
+    tags.value[tagIndex].color = newColor;
+    
+    // 更新所有笔记中的标签名称
+    notes.value.forEach(note => {
+      note.tags = note.tags.map(tag => tag === oldName ? newName : tag);
+    });
+  }
+};
+
 // 初始化
 loadFromLocalStorage();
 
@@ -91,4 +105,5 @@ export default {
   deleteNote,
   addTag,
   deleteTag,
+  updateTag,
 };
